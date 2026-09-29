@@ -1,0 +1,65 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+
+# --- Secrets / local config ---
+.env
+.env.*
+!.env.example
+
+# --- Rust ---
+harness/target/
+
+# --- CMake / CUDA build outputs ---
+build/
+cmake-build-*/
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+*.exp
+*.pdb
+*.ptx
+*.cubin
+*.fatbin
+
+# --- Profiler output ---
+*.ncu-rep
+*.nsys-rep
+*.qdrep
+*.sqlite
+
+# --- Results (generated; only the schema README is tracked) ---
+results/*
+!results/README.md
+
+# --- Large binaries, datasets, model weights ---
+data/
+models/
+checkpoints/
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+*.bin
+*.npy
+*.npz
+*.h5
+*.gguf
+
+# --- Editors / OS / agent IDEs ---
+.vscode/
+.idea/
+.kilo/
+.DS_Store
+Thumbs.db

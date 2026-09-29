@@ -1,0 +1,20 @@
+id = "level1.layernorm_fp32"
+description = "Y = (X - mean) / sqrt(var + 1e-5) * gamma + beta over the last dim (biased var), FP32"
+reference = "vka.reference:layernorm"
+baseline = "kernels/layernorm_fused.cu"
+inputs  = [{ name = "X", dtype = "f32", shape = ["R", "C"] },
+           { name = "gamma", dtype = "f32", shape = ["C"] },
+           { name = "beta", dtype = "f32", shape = ["C"] }]
+outputs = [{ name = "Y", dtype = "f32", shape = ["R", "C"] }]
+
+[shapes]
+nominal = { R = 4096, C = 1024 }
+fuzz    = { R = [1, 8192], C = [1, 16384], include_non_multiples_of = [32, 128] }
+
+# Provisional; revisit in phase 1 against measured FP32 error over the fuzz range.
+[tolerance]
+rtol = 1e-4
+atol = 1e-5
+
+[constraints]
+forbid = ["cublas", "cublaslt", "cudnn", "cutlass", "thrust"]

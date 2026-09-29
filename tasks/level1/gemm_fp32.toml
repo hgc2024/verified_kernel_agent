@@ -1,0 +1,19 @@
+id = "level1.gemm_fp32"
+description = "C = A @ B, row-major, FP32"
+reference = "vka.reference:gemm"
+baseline = "kernels/gemm_tiled.cu"
+inputs  = [{ name = "A", dtype = "f32", shape = ["M", "K"] },
+           { name = "B", dtype = "f32", shape = ["K", "N"] }]
+outputs = [{ name = "C", dtype = "f32", shape = ["M", "N"] }]
+
+[shapes]
+nominal = { M = 1024, N = 1024, K = 1024 }
+fuzz    = { M = [1, 4096], N = [1, 4096], K = [1, 2048], include_non_multiples_of = [16, 32, 128] }
+
+# Provisional; revisit in phase 1 against measured FP32 error over the fuzz range.
+[tolerance]
+rtol = 1e-4
+atol = 1e-5
+
+[constraints]
+forbid = ["cublas", "cublaslt", "cudnn", "cutlass", "thrust"]

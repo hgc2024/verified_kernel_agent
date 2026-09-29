@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vka"
+version = "0.0.1"
+description = "Agent and evaluation tooling for verified CUDA kernel optimization"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+# PyTorch references and GPU parity tests. Kept optional so CPU-only CI stays light.
+gpu = [
+    "torch>=2.3",
+    "numpy>=1.26",
+]
+
+[tool.setuptools.packages.find]
+include = ["vka*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-ra"
+markers = [
+    "gpu: requires a CUDA device (deselect with -m \"not gpu\")",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
